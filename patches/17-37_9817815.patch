@@ -1,0 +1,99 @@
+diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+index 3bbfb2455b70..a1912a22c89c 100644
+--- a/drivers/android/binder.c
++++ b/drivers/android/binder.c
+@@ -2024,8 +2024,8 @@ static int binder_thread_write(struct binder_proc *proc,
+ 				return -EFAULT;
+ 			ptr += sizeof(binder_uintptr_t);
+ 
+-			buffer = binder_alloc_buffer_lookup(&proc->alloc,
+-							    data_ptr);
++			buffer = binder_alloc_prepare_to_free(&proc->alloc,
++							      data_ptr);
+ 			if (buffer == NULL) {
+ 				binder_user_error("%d:%d BC_FREE_BUFFER u%016llx no match\n",
+ 					proc->pid, thread->pid, (u64)data_ptr);
+diff --git a/drivers/android/binder_alloc.c b/drivers/android/binder_alloc.c
+index a0af1419cc79..2a2e41b13de5 100644
+--- a/drivers/android/binder_alloc.c
++++ b/drivers/android/binder_alloc.c
+@@ -116,7 +116,7 @@ static void binder_insert_allocated_buffer_locked(
+ 	rb_insert_color(&new_buffer->rb_node, &alloc->allocated_buffers);
+ }
+ 
+-static struct binder_buffer *binder_alloc_buffer_lookup_locked(
++static struct binder_buffer *binder_alloc_prepare_to_free_locked(
+ 		struct binder_alloc *alloc,
+ 		uintptr_t user_ptr)
+ {
+@@ -135,8 +135,19 @@ static struct binder_buffer *binder_alloc_buffer_lookup_locked(
+ 			n = n->rb_left;
+ 		else if (kern_ptr > buffer)
+ 			n = n->rb_right;
+-		else
++		else {
++			/*
++			 * Guard against user threads attempting to
++			 * free the buffer twice
++			 */
++			if (buffer->free_in_progress) {
++				pr_err("%d:%d FREE_BUFFER u%016llx user freed buffer twice\n",
++				       alloc->pid, current->pid, (u64)user_ptr);
++				return NULL;
++			}
++			buffer->free_in_progress = 1;
+ 			return buffer;
++		}
+ 	}
+ 	return NULL;
+ }
+@@ -152,13 +163,13 @@ static struct binder_buffer *binder_alloc_buffer_lookup_locked(
+  *
+  * Return:	Pointer to buffer or NULL
+  */
+-struct binder_buffer *binder_alloc_buffer_lookup(struct binder_alloc *alloc,
+-						 uintptr_t user_ptr)
++struct binder_buffer *binder_alloc_prepare_to_free(struct binder_alloc *alloc,
++						   uintptr_t user_ptr)
+ {
+ 	struct binder_buffer *buffer;
+ 
+ 	mutex_lock(&alloc->mutex);
+-	buffer = binder_alloc_buffer_lookup_locked(alloc, user_ptr);
++	buffer = binder_alloc_prepare_to_free_locked(alloc, user_ptr);
+ 	mutex_unlock(&alloc->mutex);
+ 	return buffer;
+ }
+@@ -358,6 +369,7 @@ struct binder_buffer *binder_alloc_new_buf_locked(struct binder_alloc *alloc,
+ 
+ 	rb_erase(best_fit, &alloc->free_buffers);
+ 	buffer->free = 0;
++	buffer->free_in_progress = 0;
+ 	binder_insert_allocated_buffer_locked(alloc, buffer);
+ 	if (buffer_size != size) {
+ 		struct binder_buffer *new_buffer = (void *)buffer->data + size;
+diff --git a/drivers/android/binder_alloc.h b/drivers/android/binder_alloc.h
+index 721c511431f9..088e4ffc6230 100644
+--- a/drivers/android/binder_alloc.h
++++ b/drivers/android/binder_alloc.h
+@@ -48,7 +48,8 @@ struct binder_buffer {
+ 	unsigned free:1;
+ 	unsigned allow_user_free:1;
+ 	unsigned async_transaction:1;
+-	unsigned debug_id:29;
++	unsigned free_in_progress:1;
++	unsigned debug_id:28;
+ 
+ 	struct binder_transaction *transaction;
+ 
+@@ -109,8 +110,8 @@ extern struct binder_buffer *binder_alloc_new_buf(struct binder_alloc *alloc,
+ extern void binder_alloc_init(struct binder_alloc *alloc);
+ extern void binder_alloc_vma_close(struct binder_alloc *alloc);
+ extern struct binder_buffer *
+-binder_alloc_buffer_lookup(struct binder_alloc *alloc,
+-			   uintptr_t user_ptr);
++binder_alloc_prepare_to_free(struct binder_alloc *alloc,
++			     uintptr_t user_ptr);
+ extern void binder_alloc_free_buf(struct binder_alloc *alloc,
+ 				  struct binder_buffer *buffer);
+ extern int binder_alloc_mmap_handler(struct binder_alloc *alloc,
