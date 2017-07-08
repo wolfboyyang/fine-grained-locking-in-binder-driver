@@ -59,7 +59,11 @@
 
 [[15/37] binder: don't modify thread->looper from other threads](https://patchwork.kernel.org/patch/9817799/)
 
+- patched
+
 [[16/37] binder: remove dead code in binder_get_ref_for_node](https://patchwork.kernel.org/patch/9817819/)
+
+- patched
 
 [[17/37] binder: protect against two threads freeing buffer](https://patchwork.kernel.org/patch/9817815/)
 
