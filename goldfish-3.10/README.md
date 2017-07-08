@@ -43,7 +43,11 @@
 
 [[11/37] binder: make binder_last_id an atomic](https://patchwork.kernel.org/patch/9817809/)
 
+- no need
+
 [[12/37] binder: add log information for binder transaction failures](https://patchwork.kernel.org/patch/9817751/)
+
+- patched
 
 [[13/37] binder: refactor queue management in binder_thread_read](https://patchwork.kernel.org/patch/9817757/)
 
