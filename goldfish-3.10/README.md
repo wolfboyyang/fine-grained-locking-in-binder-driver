@@ -79,6 +79,8 @@
 
 [[20/37] binder: refactor binder_pop_transaction](https://patchwork.kernel.org/patch/9817793/)
 
+- patched
+
 [[21/37] binder: guarantee txn complete / errors delivered in-order](https://patchwork.kernel.org/patch/9817805/)
 
 [[22/37] binder: make sure target_node has strong ref](https://patchwork.kernel.org/patch/9817787/)
