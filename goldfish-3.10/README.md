@@ -75,6 +75,8 @@
 
 [[19/37] binder: use atomic for transaction_log index](https://patchwork.kernel.org/patch/9817807/)
 
+- patched
+
 [[20/37] binder: refactor binder_pop_transaction](https://patchwork.kernel.org/patch/9817793/)
 
 [[21/37] binder: guarantee txn complete / errors delivered in-order](https://patchwork.kernel.org/patch/9817805/)
