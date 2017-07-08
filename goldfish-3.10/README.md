@@ -19,6 +19,8 @@
 
 [[05/37] binder: remove unneeded cleanup code](https://patchwork.kernel.org/patch/9817817/)
 
+- patched
+
 [[06/37] binder: separate out binder_alloc functions](https://patchwork.kernel.org/patch/9817753/)
 
 [[07/37] binder: move binder_alloc to separate file](https://patchwork.kernel.org/patch/9817759/)
