@@ -35,6 +35,8 @@
 
 [[09/37] binder: add protection for non-perf cases](https://patchwork.kernel.org/patch/9817749/)
 
+- partial patched
+
 [[10/37] binder: change binder_stats to atomics](https://patchwork.kernel.org/patch/9817755/)
 
 [[11/37] binder: make binder_last_id an atomic](https://patchwork.kernel.org/patch/9817809/)
