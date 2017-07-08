@@ -744,18 +744,11 @@ static struct binder_ref *binder_get_ref_for_node(struct binder_proc *proc,
 	}
 	rb_link_node(&new_ref->rb_node_desc, parent, p);
 	rb_insert_color(&new_ref->rb_node_desc, &proc->refs_by_desc);
-	if (node) {
-		hlist_add_head(&new_ref->node_entry, &node->refs);
-
-		binder_debug(BINDER_DEBUG_INTERNAL_REFS,
-			     "%d new ref %d desc %d for node %d\n",
-			      proc->pid, new_ref->debug_id, new_ref->desc,
-			      node->debug_id);
-	} else {
-		binder_debug(BINDER_DEBUG_INTERNAL_REFS,
-			     "%d new ref %d desc %d for dead node\n",
-			      proc->pid, new_ref->debug_id, new_ref->desc);
-	}
+	hlist_add_head(&new_ref->node_entry, &node->refs);
+	binder_debug(BINDER_DEBUG_INTERNAL_REFS,
+		     "%d new ref %d desc %d for node %d\n",
+		      proc->pid, new_ref->debug_id, new_ref->desc,
+		      node->debug_id);
 	return new_ref;
 }
 
@@ -2102,7 +2095,7 @@ static int binder_thread_write(struct binder_proc *proc,
 				return -EFAULT;
 			ptr += sizeof(binder_uintptr_t);
 
-			buffer = binder_alloc_buffer_lookup(&proc->alloc, data_ptr);
+			buffer = binder_alloc_prepare_to_free(&proc->alloc, data_ptr);
 			if (buffer == NULL) {
 				binder_user_error("%d:%d BC_FREE_BUFFER u%016llx no match\n",
 					proc->pid, thread->pid, (u64)data_ptr);

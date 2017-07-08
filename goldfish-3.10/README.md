@@ -67,6 +67,8 @@
 
 [[17/37] binder: protect against two threads freeing buffer](https://patchwork.kernel.org/patch/9817815/)
 
+- patched
+
 [[18/37] binder: add more debug info when allocation fails.](https://patchwork.kernel.org/patch/9817797/)
 
 [[19/37] binder: use atomic for transaction_log index](https://patchwork.kernel.org/patch/9817807/)
