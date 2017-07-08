@@ -51,7 +51,11 @@
 
 [[13/37] binder: refactor queue management in binder_thread_read](https://patchwork.kernel.org/patch/9817757/)
 
+- skip
+
 [[14/37] binder: avoid race conditions when enqueuing txn](https://patchwork.kernel.org/patch/9817813/)
+
+- patched
 
 [[15/37] binder: don't modify thread->looper from other threads](https://patchwork.kernel.org/patch/9817799/)
 
