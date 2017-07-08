@@ -39,6 +39,8 @@
 
 [[10/37] binder: change binder_stats to atomics](https://patchwork.kernel.org/patch/9817755/)
 
+- patched
+
 [[11/37] binder: make binder_last_id an atomic](https://patchwork.kernel.org/patch/9817809/)
 
 [[12/37] binder: add log information for binder transaction failures](https://patchwork.kernel.org/patch/9817751/)
