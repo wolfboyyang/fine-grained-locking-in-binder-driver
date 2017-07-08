@@ -71,6 +71,8 @@
 
 [[18/37] binder: add more debug info when allocation fails.](https://patchwork.kernel.org/patch/9817797/)
 
+- patched
+
 [[19/37] binder: use atomic for transaction_log index](https://patchwork.kernel.org/patch/9817807/)
 
 [[20/37] binder: refactor binder_pop_transaction](https://patchwork.kernel.org/patch/9817793/)
