@@ -87,6 +87,8 @@
 
 [[22/37] binder: make sure target_node has strong ref](https://patchwork.kernel.org/patch/9817787/)
 
+- patched
+
 [[23/37] binder: make sure accesses to proc/thread are safe](https://patchwork.kernel.org/patch/9817785/)
 
 [[24/37] binder: refactor binder ref inc/dec for thread safety](https://patchwork.kernel.org/patch/9817781/)
