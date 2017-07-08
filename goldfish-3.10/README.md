@@ -31,6 +31,8 @@
 
 [[08/37] binder: remove binder_debug_no_lock mechanism](https://patchwork.kernel.org/patch/9817811/)
 
+- patched
+
 [[09/37] binder: add protection for non-perf cases](https://patchwork.kernel.org/patch/9817749/)
 
 [[10/37] binder: change binder_stats to atomics](https://patchwork.kernel.org/patch/9817755/)

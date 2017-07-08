@@ -101,9 +101,6 @@ static uint32_t binder_debug_mask = BINDER_DEBUG_USER_ERROR |
 	BINDER_DEBUG_FAILED_TRANSACTION | BINDER_DEBUG_DEAD_TRANSACTION;
 module_param_named(debug_mask, binder_debug_mask, uint, S_IWUSR | S_IRUGO);
 
-static bool binder_debug_no_lock;
-module_param_named(proc_no_lock, binder_debug_no_lock, bool, S_IWUSR | S_IRUGO);
-
 static char *binder_devices_param = CONFIG_ANDROID_BINDER_DEVICES;
 module_param_named(devices, binder_devices_param, charp, S_IRUGO);
 
@@ -3614,15 +3611,13 @@ static int binder_state_show(struct seq_file *m, void *unused)
 	struct binder_context *context;
 	struct binder_proc *proc;
 	struct binder_node *node;
-	int do_lock = !binder_debug_no_lock;
 	bool wrote_dead_nodes_header = false;
 
 	seq_puts(m, "binder state:\n");
 
 	hlist_for_each_entry(device, &binder_devices, hlist) {
 		context = &device->context;
-		if (do_lock)
-			binder_lock(context, __func__);
+		binder_lock(context, __func__);
 		if (!wrote_dead_nodes_header &&
 		    !hlist_empty(&context->binder_dead_nodes)) {
 			seq_puts(m, "dead nodes:\n");
@@ -3631,20 +3626,16 @@ static int binder_state_show(struct seq_file *m, void *unused)
 		hlist_for_each_entry(node, &context->binder_dead_nodes,
 				     dead_node)
 			print_binder_node(m, node);
-
-		if (do_lock)
-			binder_unlock(context, __func__);
+		binder_unlock(context, __func__);
 	}
 
 	hlist_for_each_entry(device, &binder_devices, hlist) {
 		context = &device->context;
-		if (do_lock)
-			binder_lock(context, __func__);
+		binder_lock(context, __func__);
 
 		hlist_for_each_entry(proc, &context->binder_procs, proc_node)
 			print_binder_proc(m, proc, 1);
-		if (do_lock)
-			binder_unlock(context, __func__);
+		binder_unlock(context, __func__);
 	}
 	return 0;
 }
@@ -3655,19 +3646,15 @@ static int binder_stats_show(struct seq_file *m, void *unused)
 	struct binder_context *context;
 	struct binder_proc *proc;
 	struct binder_stats total_binder_stats;
-	int do_lock = !binder_debug_no_lock;
 
 	memset(&total_binder_stats, 0, sizeof(struct binder_stats));
 
 	hlist_for_each_entry(device, &binder_devices, hlist) {
 		context = &device->context;
-		if (do_lock)
-			binder_lock(context, __func__);
+		binder_lock(context, __func__);
 
 		add_binder_stats(&context->binder_stats, &total_binder_stats);
-
-		if (do_lock)
-			binder_unlock(context, __func__);
+		binder_unlock(context, __func__);
 	}
 
 	seq_puts(m, "binder stats:\n");
@@ -3675,13 +3662,11 @@ static int binder_stats_show(struct seq_file *m, void *unused)
 
 	hlist_for_each_entry(device, &binder_devices, hlist) {
 		context = &device->context;
-		if (do_lock)
-			binder_lock(context, __func__);
+		binder_lock(context, __func__);
 
 		hlist_for_each_entry(proc, &context->binder_procs, proc_node)
 			print_binder_proc_stats(m, proc);
-		if (do_lock)
-			binder_unlock(context, __func__);
+		binder_unlock(context, __func__);
 	}
 	return 0;
 }
@@ -3691,18 +3676,15 @@ static int binder_transactions_show(struct seq_file *m, void *unused)
 	struct binder_device *device;
 	struct binder_context *context;
 	struct binder_proc *proc;
-	int do_lock = !binder_debug_no_lock;
 
 	seq_puts(m, "binder transactions:\n");
 	hlist_for_each_entry(device, &binder_devices, hlist) {
 		context = &device->context;
-		if (do_lock)
-			binder_lock(context, __func__);
+		binder_lock(context, __func__);
 
 		hlist_for_each_entry(proc, &context->binder_procs, proc_node)
 			print_binder_proc(m, proc, 0);
-		if (do_lock)
-			binder_unlock(context, __func__);
+		binder_unlock(context, __func__);
 	}
 	return 0;
 }
@@ -3713,12 +3695,10 @@ static int binder_proc_show(struct seq_file *m, void *unused)
 	struct binder_context *context;
 	struct binder_proc *itr;
 	int pid = (unsigned long)m->private;
-	int do_lock = !binder_debug_no_lock;
 
 	hlist_for_each_entry(device, &binder_devices, hlist) {
 		context = &device->context;
-		if (do_lock)
-			binder_lock(context, __func__);
+		binder_lock(context, __func__);
 
 		hlist_for_each_entry(itr, &context->binder_procs, proc_node) {
 			if (itr->pid == pid) {
@@ -3726,8 +3706,7 @@ static int binder_proc_show(struct seq_file *m, void *unused)
 				print_binder_proc(m, itr, 1);
 			}
 		}
-		if (do_lock)
-			binder_unlock(context, __func__);
+		binder_unlock(context, __func__);
 	}
 	return 0;
 }
