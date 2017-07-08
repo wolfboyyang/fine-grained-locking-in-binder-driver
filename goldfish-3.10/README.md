@@ -91,6 +91,8 @@
 
 [[23/37] binder: make sure accesses to proc/thread are safe](https://patchwork.kernel.org/patch/9817785/)
 
+- patched
+
 [[24/37] binder: refactor binder ref inc/dec for thread safety](https://patchwork.kernel.org/patch/9817781/)
 
 [[25/37] binder: use node->tmp_refs to ensure node safety](https://patchwork.kernel.org/patch/9817795/)
