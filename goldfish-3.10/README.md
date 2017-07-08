@@ -27,6 +27,8 @@
 
 [[07/37] binder: move binder_alloc to separate file](https://patchwork.kernel.org/patch/9817759/)
 
+- patched
+
 [[08/37] binder: remove binder_debug_no_lock mechanism](https://patchwork.kernel.org/patch/9817811/)
 
 [[09/37] binder: add protection for non-perf cases](https://patchwork.kernel.org/patch/9817749/)
