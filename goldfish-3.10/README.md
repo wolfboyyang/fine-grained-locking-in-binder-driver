@@ -83,6 +83,8 @@
 
 [[21/37] binder: guarantee txn complete / errors delivered in-order](https://patchwork.kernel.org/patch/9817805/)
 
+- patched
+
 [[22/37] binder: make sure target_node has strong ref](https://patchwork.kernel.org/patch/9817787/)
 
 [[23/37] binder: make sure accesses to proc/thread are safe](https://patchwork.kernel.org/patch/9817785/)
