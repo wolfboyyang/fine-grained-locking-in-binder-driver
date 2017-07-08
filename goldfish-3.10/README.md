@@ -23,6 +23,8 @@
 
 [[06/37] binder: separate out binder_alloc functions](https://patchwork.kernel.org/patch/9817753/)
 
+- patched
+
 [[07/37] binder: move binder_alloc to separate file](https://patchwork.kernel.org/patch/9817759/)
 
 [[08/37] binder: remove binder_debug_no_lock mechanism](https://patchwork.kernel.org/patch/9817811/)
