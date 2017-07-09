@@ -135,6 +135,8 @@
 
 [[34/37] binder: protect binder_ref with outer lock](https://patchwork.kernel.org/patch/9817771/)
 
+- partially patched
+
 [[35/37] binder: protect against stale pointers in print_binder_transaction](https://patchwork.kernel.org/patch/9817761/)
 
 [[36/37] binder: fix death race conditions](https://patchwork.kernel.org/patch/9817765/)
