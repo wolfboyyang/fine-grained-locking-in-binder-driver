@@ -139,6 +139,8 @@
 
 [[35/37] binder: protect against stale pointers in print_binder_transaction](https://patchwork.kernel.org/patch/9817761/)
 
+- partially patched
+
 [[36/37] binder: fix death race conditions](https://patchwork.kernel.org/patch/9817765/)
 
 [[37/37] binder: remove global binder lock](https://patchwork.kernel.org/patch/9817773/)
