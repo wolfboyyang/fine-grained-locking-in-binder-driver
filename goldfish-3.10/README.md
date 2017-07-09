@@ -103,6 +103,8 @@
 
 [[26/37] binder: introduce locking helper functions](https://patchwork.kernel.org/patch/9817791/)
 
+- patched
+
 [[27/37] binder: use inner lock to sync work dq and node counts](https://patchwork.kernel.org/patch/9817789/)
 
 [[28/37] binder: add spinlocks to protect todo lists](https://patchwork.kernel.org/patch/9817769/)
