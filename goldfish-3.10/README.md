@@ -99,6 +99,8 @@
 
 [[25/37] binder: use node->tmp_refs to ensure node safety](https://patchwork.kernel.org/patch/9817795/)
 
+- patched
+
 [[26/37] binder: introduce locking helper functions](https://patchwork.kernel.org/patch/9817791/)
 
 [[27/37] binder: use inner lock to sync work dq and node counts](https://patchwork.kernel.org/patch/9817789/)
