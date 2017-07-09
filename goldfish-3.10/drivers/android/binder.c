@@ -894,10 +894,10 @@ static int binder_dec_node(struct binder_node *node, int strong, int internal)
 					     "refless node %d deleted\n",
 					     node->debug_id);
 			} else {
-				//struct binder_context *context = node->proc->context;
-				//spin_lock(&context->binder_dead_nodes_lock);
+				struct binder_context *context = node->proc->context;
+				spin_lock(&context->binder_dead_nodes_lock);
 				hlist_del(&node->dead_node);
-				//spin_unlock(&context->binder_dead_nodes_lock);
+				spin_unlock(&context->binder_dead_nodes_lock);
 				binder_debug(BINDER_DEBUG_INTERNAL_REFS,
 					     "dead node %d deleted\n",
 					     node->debug_id);
@@ -3907,9 +3907,9 @@ static int binder_node_release(struct binder_node *node, int refs)
 	node->proc = NULL;
 	node->local_strong_refs = 0;
 	node->local_weak_refs = 0;
-	//spin_lock(&context->binder_dead_nodes_lock);
+	spin_lock(&context->binder_dead_nodes_lock);
 	hlist_add_head(&node->dead_node, &context->binder_dead_nodes);
-	//spin_unlock(&context->binder_dead_nodes_lock);
+	spin_unlock(&context->binder_dead_nodes_lock);
 
 	hlist_for_each_entry(ref, &node->refs, node_entry) {
 		refs++;
@@ -4430,7 +4430,7 @@ static int binder_state_show(struct seq_file *m, void *unused)
 	hlist_for_each_entry(device, &binder_devices, hlist) {
 		context = &device->context;
 		binder_lock(context, __func__);
-		//spin_lock(&context->binder_dead_nodes_lock);
+		spin_lock(&context->binder_dead_nodes_lock);
 		if (!wrote_dead_nodes_header &&
 		    !hlist_empty(&context->binder_dead_nodes)) {
 			seq_puts(m, "dead nodes:\n");
@@ -4439,7 +4439,7 @@ static int binder_state_show(struct seq_file *m, void *unused)
 		hlist_for_each_entry(node, &context->binder_dead_nodes,
 				     dead_node)
 			print_binder_node(m, node);
-		//spin_unlock(&context->binder_dead_nodes_lock);
+		spin_unlock(&context->binder_dead_nodes_lock);
 		binder_unlock(context, __func__);
 	}
 
