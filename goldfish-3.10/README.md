@@ -119,6 +119,8 @@
 
 [[30/37] binder: protect proc->nodes with inner lock](https://patchwork.kernel.org/patch/9817783/)
 
+- partially patched
+
 [[31/37] binder: protect proc->threads with inner_lock](https://patchwork.kernel.org/patch/9817775/)
 
 [[32/37] binder: protect transaction_stack with inner lock.](https://patchwork.kernel.org/patch/9817779/)
