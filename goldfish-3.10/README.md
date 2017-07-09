@@ -35,7 +35,7 @@
 
 [[09/37] binder: add protection for non-perf cases](https://patchwork.kernel.org/patch/9817749/)
 
-- partial patched
+- partially patched
 
 [[10/37] binder: change binder_stats to atomics](https://patchwork.kernel.org/patch/9817755/)
 
@@ -106,6 +106,8 @@
 - patched
 
 [[27/37] binder: use inner lock to sync work dq and node counts](https://patchwork.kernel.org/patch/9817789/)
+
+- partially patched
 
 [[28/37] binder: add spinlocks to protect todo lists](https://patchwork.kernel.org/patch/9817769/)
 
