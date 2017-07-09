@@ -35,7 +35,7 @@
 
 [[09/37] binder: add protection for non-perf cases](https://patchwork.kernel.org/patch/9817749/)
 
-- partially patched
+- patched
 
 [[10/37] binder: change binder_stats to atomics](https://patchwork.kernel.org/patch/9817755/)
 
@@ -107,7 +107,7 @@
 
 [[27/37] binder: use inner lock to sync work dq and node counts](https://patchwork.kernel.org/patch/9817789/)
 
-- partially patched
+- patched
 
 [[28/37] binder: add spinlocks to protect todo lists](https://patchwork.kernel.org/patch/9817769/)
 
@@ -115,34 +115,36 @@
 
 [[29/37] binder: add spinlock to protect binder_node](https://patchwork.kernel.org/patch/9817777/)
 
-- partially patched
+- patched
 
 [[30/37] binder: protect proc->nodes with inner lock](https://patchwork.kernel.org/patch/9817783/)
 
-- partially patched
+- patched
 
 [[31/37] binder: protect proc->threads with inner_lock](https://patchwork.kernel.org/patch/9817775/)
 
-- partially patched
+- patched
 
 [[32/37] binder: protect transaction_stack with inner lock.](https://patchwork.kernel.org/patch/9817779/)
 
-- partially patched
+- patched
 
 [[33/37] binder: use inner lock to protect thread accounting](https://patchwork.kernel.org/patch/9817763/)
 
-- partially patched
+- patched
 
 [[34/37] binder: protect binder_ref with outer lock](https://patchwork.kernel.org/patch/9817771/)
 
-- partially patched
+- patched
 
 [[35/37] binder: protect against stale pointers in print_binder_transaction](https://patchwork.kernel.org/patch/9817761/)
 
-- partially patched
+- patched
 
 [[36/37] binder: fix death race conditions](https://patchwork.kernel.org/patch/9817765/)
 
-- partially patched
+- patched
 
 [[37/37] binder: remove global binder lock](https://patchwork.kernel.org/patch/9817773/)
+
+- patched
