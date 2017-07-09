@@ -1,5 +1,4 @@
-# BinderPatch
-[fine-grained locking in binder driver by Todd Kjos](https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1434375.html)
+# [Fine-Grained Locking in Binder Driver by Todd Kjos](https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1434375.html)
 
 The binder driver uses a global mutex to serialize access to state in a
 multi-threaded environment. This global lock has been increasingly
@@ -23,34 +22,39 @@ inversion is decreased significantly.
 Here is a comparison of the binder throughputs for the 3 cases
 with no payload (using binderThroughputTest on a 4-core Pixel device):
 
-1 Client/Server Pair (iterations/s):
-Global Mutex:    4267
-+ No-Preempt:   69688
-Fine-Grained:   52313
+- 1 Client/Server Pair (iterations/s):
 
-2 Client/Server Pairs (iterations/s):
-Global Mutex:     5608
-+ No-Preempt:   111346
-Fine-Grained:   117039
+        Global Mutex:    4267
+          No-Preempt:   69688
+        Fine-Grained:   52313
 
-4 Client/Server Pairs (iterations/s):
-Global Mutex:    12839
-+ No-Preempt:   118049
-Fine-Grained:   189805
+- 2 Client/Server Pairs (iterations/s):
 
-8 Client/Server Pairs (iterations/s):
-Global Mutex:    12991
-+ No-Preempt:   111780
-Fine-Grained:   203607
+        Global Mutex:     5608
+          No-Preempt:   111346
+        Fine-Grained:   117039
 
-16 Client/Server Pairs (iterations/s):
-Global Mutex:    14467
-+ No-Preempt:   106763
-Fine-Grained:   202942
+- 4 Client/Server Pairs (iterations/s):
+
+        Global Mutex:    12839
+        + No-Preempt:   118049
+        Fine-Grained:   189805
+
+- 8 Client/Server Pairs (iterations/s):
+
+        Global Mutex:    12991
+          No-Preempt:   111780
+        Fine-Grained:   203607
+
+- 16 Client/Server Pairs (iterations/s):
+
+        Global Mutex:    14467
+          No-Preempt:   106763
+        Fine-Grained:   202942
 
 Note that global lock performance without preempt disable seems to perform
 significantly worse on Pixel than on some other devices. This run used the
-4.4 version of the binder driver that is currently upstream (and there
+[4.4 version of the binder driver](https://github.com/torvalds/linux/tree/master/drivers/android) that is currently upstream (and there
 have been few lines changed since then which wouldn't explain the poor
 performance).
 
@@ -64,10 +68,13 @@ protected with its own per-process mutex.
 
 Most of the binder driver is now protected by 3 spinlocks which must be
 acquired in the order shown:
+
 1) proc->outer_lock : protects binder_ref binder_proc_lock() and
    binder_proc_unlock() are used to acq/rel.
+
 2) node->lock : protects most fields of binder_node.  binder_node_lock()
    and binder_node_unlock() are used to acq/rel
+
 3) proc->inner_lock : protects the thread and node lists (proc->threads,
    proc->waiting_threads, proc->nodes) and all todo lists associated with
    the binder_proc (proc->todo, thread->todo, proc->delivered_death and
@@ -137,14 +144,14 @@ Here are the patches grouped into 4 categories:
         binder: fix death race conditions
         binder: remove global binder lock
 
-```
-drivers/android/Makefile       |    2 +-
-drivers/android/binder.c       | 3467 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------------------------------------------
-drivers/android/binder_alloc.c |  802 ++++++++++++++++++++++++++++++++
-drivers/android/binder_alloc.h |  163 +++++++
-drivers/android/binder_trace.h |   41 +-
-5 files changed, 3235 insertions(+), 1240 deletions(-)
-```
+
+        drivers/android/Makefile       |    2 +-
+        drivers/android/binder.c       | 3467 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------------------------------------------
+        drivers/android/binder_alloc.c |  802 ++++++++++++++++++++++++++++++++
+        drivers/android/binder_alloc.h |  163 +++++++
+        drivers/android/binder_trace.h |   41 +-
+        5 files changed, 3235 insertions(+), 1240 deletions(-)
+
 # Patch List
 [[01/37] Revert "android: binder: Sanity check at binder ioctl"](https://patchwork.kernel.org/patch/9817743/)
 
@@ -219,3 +226,7 @@ drivers/android/binder_trace.h |   41 +-
 [[36/37] binder: fix death race conditions](https://patchwork.kernel.org/patch/9817765/)
 
 [[37/37] binder: remove global binder lock](https://patchwork.kernel.org/patch/9817773/)
+
+# Note
+
+This patch can apply to the [linux source of torvalds](https://github.com/torvalds/linux/) on the github.
