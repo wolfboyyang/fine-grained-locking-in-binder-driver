@@ -95,6 +95,8 @@
 
 [[24/37] binder: refactor binder ref inc/dec for thread safety](https://patchwork.kernel.org/patch/9817781/)
 
+- patched
+
 [[25/37] binder: use node->tmp_refs to ensure node safety](https://patchwork.kernel.org/patch/9817795/)
 
 [[26/37] binder: introduce locking helper functions](https://patchwork.kernel.org/patch/9817791/)
