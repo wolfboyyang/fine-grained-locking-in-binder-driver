@@ -131,6 +131,8 @@
 
 [[33/37] binder: use inner lock to protect thread accounting](https://patchwork.kernel.org/patch/9817763/)
 
+- partially patched
+
 [[34/37] binder: protect binder_ref with outer lock](https://patchwork.kernel.org/patch/9817771/)
 
 [[35/37] binder: protect against stale pointers in print_binder_transaction](https://patchwork.kernel.org/patch/9817761/)
