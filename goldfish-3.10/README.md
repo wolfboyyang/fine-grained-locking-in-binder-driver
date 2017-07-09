@@ -127,6 +127,8 @@
 
 [[32/37] binder: protect transaction_stack with inner lock.](https://patchwork.kernel.org/patch/9817779/)
 
+- partially patched
+
 [[33/37] binder: use inner lock to protect thread accounting](https://patchwork.kernel.org/patch/9817763/)
 
 [[34/37] binder: protect binder_ref with outer lock](https://patchwork.kernel.org/patch/9817771/)
