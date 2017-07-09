@@ -115,6 +115,8 @@
 
 [[29/37] binder: add spinlock to protect binder_node](https://patchwork.kernel.org/patch/9817777/)
 
+- partially patched
+
 [[30/37] binder: protect proc->nodes with inner lock](https://patchwork.kernel.org/patch/9817783/)
 
 [[31/37] binder: protect proc->threads with inner_lock](https://patchwork.kernel.org/patch/9817775/)
