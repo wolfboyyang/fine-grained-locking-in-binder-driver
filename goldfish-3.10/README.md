@@ -143,4 +143,6 @@
 
 [[36/37] binder: fix death race conditions](https://patchwork.kernel.org/patch/9817765/)
 
+- partially patched
+
 [[37/37] binder: remove global binder lock](https://patchwork.kernel.org/patch/9817773/)
