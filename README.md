@@ -69,16 +69,19 @@ protected with its own per-process mutex.
 Most of the binder driver is now protected by 3 spinlocks which must be
 acquired in the order shown:
 
-1) proc->outer_lock : protects binder_ref binder_proc_lock() and
-   binder_proc_unlock() are used to acq/rel.
+1) proc->outer_lock : protects binder_ref.
 
-2) node->lock : protects most fields of binder_node.  binder_node_lock()
-   and binder_node_unlock() are used to acq/rel
+   binder_proc_lock() and binder_proc_unlock() are used to acq/rel.
+
+2) node->lock : protects most fields of binder_node.
+
+   binder_node_lock() and binder_node_unlock() are used to acq/rel
 
 3) proc->inner_lock : protects the thread and node lists (proc->threads,
    proc->waiting_threads, proc->nodes) and all todo lists associated with
    the binder_proc (proc->todo, thread->todo, proc->delivered_death and
    node->async_todo), as well as thread->transaction_stack
+   
    binder_inner_proc_lock() and binder_inner_proc_unlock() are used
    to acq/rel
 
@@ -90,27 +93,24 @@ are 37 patches in the set.
 
 Here are the patches grouped into 4 categories:
 
-1) bugfixes: 3 patches to fix behavior and are
-   needed for fine-grained locking implementation
-        Revert "binder: Sanity check at binder ioctl"
-          - note: introduces kernel race to fix userspace bug. An
-                  attempt to fix this was submitted in
-                  "[PATCH v2] android: binder: fix dangling pointer comparison"
-                  however that discussion concluded that this
-                  patch should be reverted and the problem fixed
-                  in userspace. Doing the revert now since this patch
-                  conflicts with some of the fine-grained locking
-                  patches.
+1) bugfixes: 3 patches to fix behavior and are needed for fine-grained locking implementation
+
+   Revert "binder: Sanity check at binder ioctl" note:
+      
+   introduces kernel race to fix userspace bug. An attempt to fix this was submitted in "[PATCH v2] android: binder: fix dangling pointer comparison" however that discussion concluded that this patch should be reverted and the problem fixed in userspace. Doing the revert now since this patch conflicts with some of the fine-grained locking patches.
+
         binder: use group leader instead of open thread
         binder: Use wake up hint for synchronous transactions.
 
 2) Separate binder allocator into a separate file from binder driver
+
         binder: separate binder allocator structure from binder proc
         binder: remove unneeded cleanup code
         binder: separate out binder_alloc functions
         binder: move binder_alloc to separate file
 
 3) Refactor binder driver to support locking
+
         binder: remove binder_debug_no_lock mechanism
         binder: add protection for non-perf cases
         binder: change binder_stats to atomics
@@ -131,6 +131,7 @@ Here are the patches grouped into 4 categories:
         binder: use node->tmp_refs to ensure node safety
 
 4) Add the locks and remove the global lock
+
         binder: introduce locking helper functions
         binder: use inner lock to sync work dq and node counts
         binder: add spinlocks to protect todo lists
@@ -143,7 +144,8 @@ Here are the patches grouped into 4 categories:
         binder: protect against stale pointers in print_binder_transaction
         binder: fix death race conditions
         binder: remove global binder lock
-
+ 
+# Patch Overview
 
         drivers/android/Makefile       |    2 +-
         drivers/android/binder.c       | 3467 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------------------------------------------
