@@ -6003,7 +6003,6 @@ index 0000000..40f31df
 +	alloc->pid = current->group_leader->pid;
 +	mutex_init(&alloc->mutex);
 +}
-+
 diff --git a/drivers/android/binder_alloc.h b/drivers/android/binder_alloc.h
 new file mode 100644
 index 0000000..088e4ff
@@ -6172,7 +6171,6 @@ index 0000000..088e4ff
 +}
 +
 +#endif /* _LINUX_BINDER_ALLOC_H */
-+
 diff --git a/drivers/android/binder_trace.h b/drivers/android/binder_trace.h
 index 7f20f3d..7967db1 100644
 --- a/drivers/android/binder_trace.h
